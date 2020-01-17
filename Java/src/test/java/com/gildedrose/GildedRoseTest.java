@@ -30,6 +30,14 @@ class GildedRoseTest {
         assertItemWithSellInDaysAndQuality(-1, 6, app.items[0]);
     }
 
+    @Test
+    void once_the_sell_by_date_has_passed_the_quality_of_an_item_is_never_negative() {
+        Item[] items = new Item[] { new Item("Normal Item", 0, 1) };
+        GildedRose app = new GildedRose(items);
+        app.updateQuality();
+        assertItemWithSellInDaysAndQuality(-1, 0, app.items[0]);
+    }
+
     private void assertItemWithSellInDaysAndQuality(int expectedSellIn, int expectedQuality, Item item) {
         assertEquals(expectedSellIn, item.sellIn);
         assertEquals(expectedQuality, item.quality);
