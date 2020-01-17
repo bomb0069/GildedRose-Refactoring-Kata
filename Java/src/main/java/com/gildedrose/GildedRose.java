@@ -9,28 +9,30 @@ class GildedRose {
 
     public void updateQuality() {
         for (Item item : items) {
-            if (!isAgedBrie(item) && !isBackstagePasses(item)) {
-                if (item.quality > 0) {
-                    if (!isSulfuras(item)) {
-                        item.quality = item.quality - 1;
-                    }
-                }
-            } else {
+            if (isAgedBrie(item)) {
+                if (isQualityLessThanMaximum(item))
+                    item.quality = item.quality + 1;
+
+            } else if (isBackstagePasses(item)) {
                 if (isQualityLessThanMaximum(item)) {
                     item.quality = item.quality + 1;
 
-                    if (isBackstagePasses(item)) {
-                        if (item.sellIn < 11) {
-                            if (isQualityLessThanMaximum(item)) {
-                                item.quality = item.quality + 1;
-                            }
+                    if (item.sellIn < 11) {
+                        if (isQualityLessThanMaximum(item)) {
+                            item.quality = item.quality + 1;
                         }
+                    }
 
-                        if (item.sellIn < 6) {
-                            if (isQualityLessThanMaximum(item)) {
-                                item.quality = item.quality + 1;
-                            }
+                    if (item.sellIn < 6) {
+                        if (isQualityLessThanMaximum(item)) {
+                            item.quality = item.quality + 1;
                         }
+                    }
+                }
+            } else {
+                if (item.quality > 0) {
+                    if (!isSulfuras(item)) {
+                        item.quality = item.quality - 1;
                     }
                 }
             }
@@ -40,7 +42,11 @@ class GildedRose {
             }
 
             if (item.sellIn < 0) {
-                if (!isAgedBrie(item)) {
+                if (isAgedBrie(item)) {
+                    if (isQualityLessThanMaximum(item)) {
+                        item.quality = item.quality + 1;
+                    }
+                } else {
                     if (!isBackstagePasses(item)) {
                         if (item.quality > 0) {
                             if (!isSulfuras(item)) {
@@ -49,10 +55,6 @@ class GildedRose {
                         }
                     } else {
                         item.quality = item.quality - item.quality;
-                    }
-                } else {
-                    if (isQualityLessThanMaximum(item)) {
-                        item.quality = item.quality + 1;
                     }
                 }
             }
