@@ -122,6 +122,15 @@ class GildedRoseTest {
         
         assertItemWithSellInDaysAndQuality(1, 23, app.items[0]);
     }
+    
+    @Test
+    void item_Backstage_passes_when_Quality_increased_The_Quality_of_an_item_is_never_more_than_50() {
+        final GildedRose app = CreateGildedRoseWithItem("Backstage passes to a TAFKAL80ETC concert", 3, 50);
+
+        app.updateQuality();
+        
+        assertItemWithSellInDaysAndQuality(2, 50, app.items[0]);
+    }
 
     private GildedRose CreateGildedRoseWithItem(final String name, final int sellIn, final int quality) {
         final Item[] items = new Item[] { new Item(name, sellIn, quality) };
