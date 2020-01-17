@@ -51,6 +51,15 @@ class GildedRoseTest {
         assertItemWithSellInDaysAndQuality(0, 2, app.items[0]);
     }
 
+    @Test
+    void when_Quality_increased_The_Quality_of_an_item_is_never_more_than_50() {
+        final GildedRose app = CreateGildedRoseWithItem("Aged Brie", 10, 50);
+
+        app.updateQuality();
+        
+        assertItemWithSellInDaysAndQuality(9, 50, app.items[0]);
+    }
+
     private GildedRose CreateGildedRoseWithItem(final String name, final int sellIn, final int quality) {
         final Item[] items = new Item[] { new Item(name, sellIn, quality) };
         final GildedRose app = new GildedRose(items);
