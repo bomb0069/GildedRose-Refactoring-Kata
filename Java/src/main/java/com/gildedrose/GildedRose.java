@@ -1,70 +1,63 @@
 package com.gildedrose;
 
 class GildedRose {
+    private static final int MINIMUM_QUALITY = 0;
+    private static final int MAXIMUM_QUALITY = 50;
     Item[] items;
 
     public GildedRose(Item[] items) {
         this.items = items;
     }
-
+    
     public void updateQuality() {
         for (Item item : items) {
-            if (isAgedBrie(item)) {
-                if (isQualityLessThanMaximum(item))
-                    item.quality = item.quality + 1;
-            } else if (isBackstagePasses(item)) {
-                if (isQualityLessThanMaximum(item)) {
-                    item.quality = item.quality + 1;
-
-                    if (item.sellIn < 11) {
-                        if (isQualityLessThanMaximum(item)) {
-                            item.quality = item.quality + 1;
-                        }
-                    }
-                    
-                    if (item.sellIn < 6) {
-                        if (isQualityLessThanMaximum(item)) {
-                            item.quality = item.quality + 1;
-                        }
-                    }
-                }
-            } else {
-                if (item.quality > 0) {
-                    if (!isSulfuras(item)) {
-                        item.quality = item.quality - 1;
-                    }
-                }
-            }
             
             if (!isSulfuras(item)) {
                 item.sellIn = item.sellIn - 1;
-            }
-            
-            if (isAgedBrie(item)) {
-                if (isPassedSellByDate(item))
-                    if (isQualityLessThanMaximum(item)) {
-                        item.quality = item.quality + 1;
+                
+                if (isAgedBrie(item)) {
+                    
+                    if (isPassedSellByDate(item)) {
+                        addQualityWith(item, 2);
+                    } else {
+                        addQualityWith(item, 1);
                     }
-            } else if (isBackstagePasses(item)) {
-                if (isPassedSellByDate(item))
-                    item.quality = item.quality - item.quality;
-            } else {
-                if (isPassedSellByDate(item))
-                    if (item.quality > 0) {
-                        if (!isSulfuras(item)) {
-                            item.quality = item.quality - 1;
-                        }
+                    
+                } else if (isBackstagePasses(item)) {
+                        
+                    if (isPassedSellByDate(item)) {
+                        item.quality = 0;
+                    } else if (item.sellIn <= 5) {
+                        addQualityWith(item, 3);
+                    } else if (item.sellIn <= 10) {
+                        addQualityWith(item, 2);
+                    } else {
+                        addQualityWith(item, 1);
                     }
+                    
+                } else {
+                    
+                    if (isPassedSellByDate(item)) {
+                        addQualityWith(item, -2);
+                    } else { 
+                        addQualityWith(item, -1);
+                    }
+                }            
             }
         }
     }
 
+    private void addQualityWith(Item item, int incrementVal) {
+        item.quality = item.quality + incrementVal;
+        if (item.quality > MAXIMUM_QUALITY) {
+            item.quality = MAXIMUM_QUALITY;
+        } else if (item.quality < MINIMUM_QUALITY) {
+            item.quality = MINIMUM_QUALITY;
+        }
+    }
+        
     private boolean isPassedSellByDate(Item item) {
         return item.sellIn < 0;
-    }
-
-    private boolean isQualityLessThanMaximum(Item item) {
-        return item.quality < 50;
     }
 
     private boolean isSulfuras(Item item) {
