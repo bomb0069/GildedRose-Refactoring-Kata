@@ -12,38 +12,38 @@ class GildedRose {
     public void updateQuality() {
         for (Item item : items) {
             
-            if (!isSulfuras(item)) {
-                item.sellIn = item.sellIn - 1;
+            if (isSulfuras(item)) {
+
+            } else if (isAgedBrie(item)) {
                 
-                if (isAgedBrie(item)) {
-                    
-                    if (isPassedSellByDate(item)) {
-                        addQualityWith(item, 2);
-                    } else {
-                        addQualityWith(item, 1);
-                    }
-                    
-                } else if (isBackstagePasses(item)) {
-                        
-                    if (isPassedSellByDate(item)) {
-                        item.quality = 0;
-                    } else if (item.sellIn <= 5) {
-                        addQualityWith(item, 3);
-                    } else if (item.sellIn <= 10) {
-                        addQualityWith(item, 2);
-                    } else {
-                        addQualityWith(item, 1);
-                    }
-                    
+                item.sellIn--;
+                if (isPassedSellByDate(item)) {
+                    addQualityWith(item, 2);
                 } else {
+                    addQualityWith(item, 1);
+                }
+                
+            } else if (isBackstagePasses(item)) {
                     
-                    if (isPassedSellByDate(item)) {
-                        addQualityWith(item, -2);
-                    } else { 
-                        addQualityWith(item, -1);
-                    }
-                }            
-            }
+                item.sellIn--;
+                if (isPassedSellByDate(item)) {
+                    item.quality = 0;
+                } else if (item.sellIn <= 5) {
+                    addQualityWith(item, 3);
+                } else if (item.sellIn <= 10) {
+                    addQualityWith(item, 2);
+                } else {
+                    addQualityWith(item, 1);
+                }
+                
+            } else {
+                item.sellIn--;
+                if (isPassedSellByDate(item)) {
+                    addQualityWith(item, -2);
+                } else { 
+                    addQualityWith(item, -1);
+                }
+            }            
         }
     }
 
