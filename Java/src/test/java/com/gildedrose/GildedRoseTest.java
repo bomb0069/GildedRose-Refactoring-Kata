@@ -105,6 +105,24 @@ class GildedRoseTest {
         assertItemWithSellInDaysAndQuality(8, 13, app.items[0]);
     }
     
+    @Test
+    void item_Backstage_passes_Quality_should_be_increases_by_3_when_there_are_5_days () {
+        final GildedRose app = CreateGildedRoseWithItem("Backstage passes to a TAFKAL80ETC concert", 5, 11);
+
+        app.updateQuality();
+        
+        assertItemWithSellInDaysAndQuality(4, 14, app.items[0]);
+    }
+
+    @Test
+    void item_Backstage_passes_Quality_should_be_increases_by_3_when_there_are_less_than_5_days () {
+        final GildedRose app = CreateGildedRoseWithItem("Backstage passes to a TAFKAL80ETC concert", 2, 20);
+
+        app.updateQuality();
+        
+        assertItemWithSellInDaysAndQuality(1, 23, app.items[0]);
+    }
+
     private GildedRose CreateGildedRoseWithItem(final String name, final int sellIn, final int quality) {
         final Item[] items = new Item[] { new Item(name, sellIn, quality) };
         final GildedRose app = new GildedRose(items);
