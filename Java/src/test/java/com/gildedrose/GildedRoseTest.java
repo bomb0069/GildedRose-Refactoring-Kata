@@ -69,7 +69,6 @@ class GildedRoseTest {
         assertItemWithSellInDaysAndQuality(10, 20, app.items[0]);
     }
 
-    //Backstage passes", like aged brie, increases in Quality as its SellIn value approaches;
     @Test
     void item_Backstage_passes_should_be_increases_in_Quality_as_its_SellIn_value_approaches () {
         final GildedRose app = CreateGildedRoseWithItem("Backstage passes to a TAFKAL80ETC concert", 30, 20);
@@ -79,6 +78,33 @@ class GildedRoseTest {
         assertItemWithSellInDaysAndQuality(29, 21, app.items[0]);
     }
 
+    @Test
+    void item_Backstage_passes_Quality_should_be_increases_by_1_when_there_are_11_days () {
+        final GildedRose app = CreateGildedRoseWithItem("Backstage passes to a TAFKAL80ETC concert", 30, 11);
+
+        app.updateQuality();
+        
+        assertItemWithSellInDaysAndQuality(29, 12, app.items[0]);
+    }
+
+    @Test
+    void item_Backstage_passes_Quality_should_be_increases_by_2_when_there_are_10_days () {
+        final GildedRose app = CreateGildedRoseWithItem("Backstage passes to a TAFKAL80ETC concert", 10, 11);
+
+        app.updateQuality();
+        
+        assertItemWithSellInDaysAndQuality(9, 13, app.items[0]);
+    }
+    
+    @Test
+    void item_Backstage_passes_Quality_should_be_increases_by_2_when_there_are_less_than_10_days () {
+        final GildedRose app = CreateGildedRoseWithItem("Backstage passes to a TAFKAL80ETC concert", 9, 11);
+
+        app.updateQuality();
+        
+        assertItemWithSellInDaysAndQuality(8, 13, app.items[0]);
+    }
+    
     private GildedRose CreateGildedRoseWithItem(final String name, final int sellIn, final int quality) {
         final Item[] items = new Item[] { new Item(name, sellIn, quality) };
         final GildedRose app = new GildedRose(items);
