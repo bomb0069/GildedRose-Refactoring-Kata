@@ -61,6 +61,24 @@ class GildedRoseTest {
     }
 
     @Test
+    void item_Aged_Brie_actually_increases_2_ofQuality_when_the_day_pass() {
+        final GildedRose app = CreateGildedRoseWithItem("Aged Brie", 0, 5);
+
+        app.updateQuality();
+        
+        assertItemWithSellInDaysAndQuality(-1, 7, app.items[0]);
+    }
+
+    @Test
+    void item_Aged_Brie_actually_increases_2_ofQuality_when_the_day_passbut_not_over_50() {
+        final GildedRose app = CreateGildedRoseWithItem("Aged Brie", 0, 49);
+
+        app.updateQuality();
+        
+        assertItemWithSellInDaysAndQuality(-1, 50, app.items[0]);
+    }
+
+    @Test
     void item_Sulfuras_being_a_legendary_item_never_has_to_be_sold_or_decreases_in_Quality() {
         final GildedRose app = CreateGildedRoseWithItem("Sulfuras, Hand of Ragnaros", 10, 20);
 
