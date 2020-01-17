@@ -132,6 +132,16 @@ class GildedRoseTest {
         assertItemWithSellInDaysAndQuality(2, 50, app.items[0]);
     }
 
+    @Test
+    void item_Backstage_passes_when_the_concert_pass_Quality_should_drops_to_0 () {
+        final GildedRose app = CreateGildedRoseWithItem("Backstage passes to a TAFKAL80ETC concert", 0, 49);
+
+        app.updateQuality();
+        
+        assertItemWithSellInDaysAndQuality(-1, 0, app.items[0]);
+    }
+
+
     private GildedRose CreateGildedRoseWithItem(final String name, final int sellIn, final int quality) {
         final Item[] items = new Item[] { new Item(name, sellIn, quality) };
         final GildedRose app = new GildedRose(items);
