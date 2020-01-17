@@ -38,6 +38,14 @@ class GildedRoseTest {
         assertItemWithSellInDaysAndQuality(-1, 0, app.items[0]);
     }
 
+    @Test
+    void item_Aged_Brie_actually_increases_in_Quality_the_older_it_gets() {
+        Item[] items = new Item[] { new Item("Aged Brie", 1, 1) };
+        GildedRose app = new GildedRose(items);
+        app.updateQuality();
+        assertItemWithSellInDaysAndQuality(0, 2, app.items[0]);
+    }
+
     private void assertItemWithSellInDaysAndQuality(int expectedSellIn, int expectedQuality, Item item) {
         assertEquals(expectedSellIn, item.sellIn);
         assertEquals(expectedQuality, item.quality);
